@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import sqlalchemy.pool as pool
  
 from coffee_db_alchemy import Base, CoffeeAddict, CoffeeMachine, CoffeeCount
  
-engine = create_engine('sqlite:///sqlite:///coffee.db',
+engine = create_engine('sqlite:///coffee.db',
         connect_args={'check_same_thread':False},
         poolclass=pool.SingletonThreadPool, pool_size=1)
 
