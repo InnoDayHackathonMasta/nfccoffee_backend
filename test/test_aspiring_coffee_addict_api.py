@@ -10,8 +10,8 @@ class AspiringcCoffeeAddictApiTestCase(unittest.TestCase):
 
     def setUp(self):
         coffee_db_alchemy.init_db() 
-        coffeeapp.app.config['TESTING'] = True
-        self.app = coffeeapp.app.test_client()
+        coffeeapp.application.config['TESTING'] = True
+        self.app = coffeeapp.application.test_client()
 
     def tearDown(self):
         coffee_db_alchemy.delete_db()

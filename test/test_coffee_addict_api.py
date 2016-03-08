@@ -19,8 +19,8 @@ class CoffeeAddictApiTestCase(unittest.TestCase):
         coffee_db_alchemy.delete_db()
 
     def setUp(self):
-        coffeeapp.app.config['TESTING'] = True
-        self.app = coffeeapp.app.test_client()
+        coffeeapp.application.config['TESTING'] = True
+        self.app = coffeeapp.application.test_client()
         self.aspiring_data = { "card_id" : "1234567890" , 
                                "api_key" : utils.api_key }
 

@@ -6,8 +6,8 @@ import unittest
 class CoffeeAppTestCase(unittest.TestCase):
 
     def setUp(self):
-        coffeeapp.app.config['TESTING'] = True
-        self.app = coffeeapp.app.test_client()
+        coffeeapp.application.config['TESTING'] = True
+        self.app = coffeeapp.application.test_client()
 
     def tearDown(self):
         pass

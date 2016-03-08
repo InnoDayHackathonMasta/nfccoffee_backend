@@ -20,8 +20,8 @@ class CoffeeMachineApiTestCase(unittest.TestCase):
 
 
     def setUp(self):
-        coffeeapp.app.config['TESTING'] = True
-        self.app = coffeeapp.app.test_client()
+        coffeeapp.application.config['TESTING'] = True
+        self.app = coffeeapp.application.test_client()
         self.post_data = { "name" : "Senseo with <3",
                            "costs_per_unit" : "0.35",
                            "currency" : "EUR", 

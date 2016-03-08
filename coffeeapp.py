@@ -5,9 +5,11 @@ from resources.AspiringCoffeeAddict import AspiringCoffeeAddictController
 from resources.CoffeeAddict import CoffeeAddictController
 from resources.CoffeeMachine import CoffeeMachineController
 from resources.CoffeeCount import CoffeeCountController
+import coffee_db_alchemy as db
 
 application = Flask(__name__)
 api = Api(application)
+db.init_db()
 
 class HelloWorld(Resource):
     def get(self):
@@ -27,7 +29,7 @@ api.add_resource(CoffeeCountController, coffee_count_api_path)
 @application.route('/index', methods=['GET'])
 def index():
     addicts = ['a', 'b', 'c'] 
-    out = '<h1>CoffeeAddicts</h1>\n<ul>\n' 
+    out = '<h1>Some Chars</h1>\n<ul>\n' 
     for addict in addicts:
         out += '<li>{}</li>\n'.format(addict) 
 
