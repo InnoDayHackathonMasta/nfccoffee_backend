@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 from sqlalchemy.sql import func
+import sqlalchemy.pool as pool
 
 DATABASE_FILE_NAME="coffee.db"
 
@@ -67,7 +68,9 @@ class AspiringCoffeeAddict(Base):
            self.__table__.columns}
 
 def init_db():
-    engine = create_engine('sqlite:///{}'.format(DATABASE_FILE_NAME))
+    engine = create_engine('sqlite:///{}'.format(DATABASE_FILE_NAME),
+            connect_args={'check_same_thread':False},
+            poolclass=pool.SingletonThreadPool, pool_size=1)
     Base.metadata.create_all(engine)
 
 def delete_db():
