@@ -72,7 +72,7 @@ class CoffeeCountController(Resource):
                 conditions.append(CoffeeCount.machine == machine)
                 condition = and_(*conditions)
                 count = utils.dbsession.query(CoffeeCount) \
-                    .filter().one()
+                    .filter(condition).one()
 
                 count.count = count.count + 1 
                 utils.dbsession.commit()

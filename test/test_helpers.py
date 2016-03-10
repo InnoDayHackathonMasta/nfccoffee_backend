@@ -29,52 +29,57 @@ def gen_card_id():
             card_ids.append(card_id)
             yield card_id
 
-def create_coffee_machine(app):
-    data = { "name" : "Senseo with <3",
-               "costs_per_unit" : "0.35",
-               "currency" : "EUR", 
+def create_coffee_machine(app, name, costs_per_unit, currency):
+    """
+    creates a CoffeMachine
+
+    return machine_id
+    """
+
+    data = { "name" : name,
+               "costs_per_unit" : costs_per_unit,
+               "currency" : currency, 
                "api_key" :  utils.api_key }
 
     res = app.post(coffeeapp.coffee_machine_api_path, \
             data=data)
 
     assert 200 == res.status_code
-    return res.data
 
-def create_aspiring_addict_via_coffee_count(app):
-    global helper_global_card_id
-    data = { "card_id" : helper_global_card_id, 
+    return json.loads(res.data)["machine_id"]
+
+def create_aspiring_addict_via_coffee_count(app, card_id, machine_id):
+    data = { "card_id" : card_id, 
               "api_key" : utils.api_key,
-              "machine_id" : 1 }
+              "machine_id" : machine_id }
 
     res = app.put(coffeeapp.coffee_count_api_path, data=data)
 
     assert 200 == res.status_code
     return res.data
 
-def create_coffee_addict(app):
+def create_coffee_addict(app, name, email, machine_id):
         """
         creates a 'functional' CoffeeAddict 
         which can be used for further testing
 
-        return dict of 'card_id' and 'machine_id' 
+        return card_id (String)
         """
-        global helper_global_card_id
 
-        res_aspiring_api = create_aspiring_addict_via_coffee_count(app)
+        card_id = gen_card_id()
+        res_aspiring_api = create_aspiring_addict_via_coffee_count(app, \
+                card_id, machine_id)
+
         json_aspiring = json.loads(res_aspiring_api)
-        res_machine_api = create_coffee_machine(app)
-        json_machine = json.loads(res_machine_api)
 
         post_data = { "short_pin" : json_aspiring["short_pin"],
-                       "name" : "john",
-                       "email" : "john.doe@siemens.com",
-                       "machine_id" : json_machine["machine_id"] }
+                       "name" : name,
+                       "email" : email,
+                       "machine_id" : machine_id }
 
         res = app.post(coffeeapp.coffee_addict_api_path, data=post_data)
+        assert res.status_code == 200
 
-        return { "machine_id" : json_machine["machine_id"], 
-                 "card_id" : helper_global_card_id,
-                 "api_key" : utils.api_key }
+        return card_id
 
 init()
