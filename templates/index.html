@@ -1,0 +1,54 @@
+<html>
+  <head>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $.get( "coffeeaddict", function( data ) {
+            $("#wrapper").append(data.html);
+        });
+    });
+
+    $(document).on('submit','#pin_form', function( event ) {
+        event.preventDefault();
+
+        $( "#pin_form" ).submit(function() {
+            var pin = $( "input:first" ).val();
+            alert(pin);
+            $.get( "coffeeaddict?short_pin=" + pin, function(data) {
+                $("#content").replaceWith(data.html) 
+            });
+        });
+
+    });
+
+    $(document).on('submit','#addict_form', function( event ) {
+        event.preventDefault();
+
+        $.post( "coffeeaddict", function( data ) {
+                alert( "success" );
+                alert( data );
+            })
+            .done(function() {
+                alert( "second success" );
+            })
+            .fail(function( data ) {
+                alert( "error" + " " + data );
+            })
+            .always(function() {
+                alert( "finished" );
+            });
+    });
+
+    </script>
+
+    <title></title>
+  </head>
+  <body>
+
+    <div id="wrapper">
+
+    </div>
+  </body>
+</html>

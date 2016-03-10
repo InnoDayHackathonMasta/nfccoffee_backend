@@ -10,17 +10,17 @@ from sqlalchemy.exc import IntegrityError
 put_parser = reqparse.RequestParser()
 put_parser.add_argument(
         'card_id', dest='card_id',
-        location='form', required=True,
+        required=True,
         help='The SmartCardId of the CoffeeAddict'
 )
 put_parser.add_argument(
         'machine_id', dest='machine_id', type=int,
-        location='form', required=True,
+        required=True,
         help='The CoffeeMachineId a coffee is taken from'
 )
 put_parser.add_argument(
         'api_key', dest='api_key',
-        location='form', required=True,
+        required=True,
         help='An api_key is required to create AspiringCoffeeAddicts'
 )
 

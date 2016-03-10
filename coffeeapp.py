@@ -1,4 +1,4 @@
-from flask import Flask, request, json, Response
+from flask import Flask, request, json, Response, render_template
 from flask_restful import Resource, Api
 
 from resources.AspiringCoffeeAddict import AspiringCoffeeAddictController
@@ -6,6 +6,8 @@ from resources.CoffeeAddict import CoffeeAddictController
 from resources.CoffeeMachine import CoffeeMachineController
 from resources.CoffeeCount import CoffeeCountController
 import coffee_db_alchemy as db
+import requests
+import json
 
 application = Flask(__name__)
 api = Api(application)
@@ -13,29 +15,32 @@ db.init_db()
 
 class HelloWorld(Resource):
     def get(self):
-        return {'greeting': 'hello world!'}
+        url = "http://nfc-coffee-dev.eu-west-1.elasticbeanstalk.com"
+        json_data = json.dumps({ "longUrl" : url })
+        headers = { "Content-Type" : "application/json" }
+        g_api_key = "AIzaSyALXXfuvKQlrcX3WmV5z4ZY9bDw5e6sOhM"
+        r = requests.post("https://www.googleapis.com/urlshortener/v1/url?key={}"\
+                .format(g_api_key), data=json_data, headers = headers)
+        if r.status_code == 200:
+            res_json = json.loads(r.content)
+            return {'greeting': res_json['id']}
+        else:
+            return {'greeting': 'hello world!'}
 
 aspiring_coffee_addict_api_path = '/aspiringcoffeeaddict'
 coffee_addict_api_path = '/coffeeaddict'
 coffee_machine_api_path = '/coffeemachine'
 coffee_count_api_path = '/coffeecount'
 
-api.add_resource(HelloWorld, '/')
+api.add_resource(HelloWorld, '/hello')
 api.add_resource(AspiringCoffeeAddictController, aspiring_coffee_addict_api_path)
 api.add_resource(CoffeeAddictController, coffee_addict_api_path)
 api.add_resource(CoffeeMachineController, coffee_machine_api_path)
 api.add_resource(CoffeeCountController, coffee_count_api_path)
 
-@application.route('/index', methods=['GET'])
+@application.route('/', methods=['GET'])
 def index():
-    addicts = ['a', 'b', 'c'] 
-    out = '<h1>Some Chars</h1>\n<ul>\n' 
-    for addict in addicts:
-        out += '<li>{}</li>\n'.format(addict) 
-
-    out += '</ul>'
-    res = Response(out)
-    return res
+    return render_template('index.html')
 
 if __name__ == '__main__':
     application.debug = True

@@ -7,22 +7,22 @@ from coffee_db_alchemy import CoffeeAddict, AspiringCoffeeAddict, \
 post_parser = reqparse.RequestParser()
 post_parser.add_argument(
         'name', dest='name',
-        location='form', required=True,
+        required=True,
         help='A name for the CoffeeMachine'
 )
 post_parser.add_argument(
         'costs_per_unit', dest='costs_per_unit',
-        location='form', required=True,
+        required=True,
         help='The costs per unit of coffee from this CoffeeMachine'
 )
 post_parser.add_argument(
         'currency', dest='currency',
-        location='form', required=True,
+        required=True,
         help='The currency in which the costs are charged'
 )
 post_parser.add_argument(
         'api_key', dest='api_key',
-        location='form', required=True,
+        required=True,
         help='An api_key is required to create CoffeeMachines'
 )
 

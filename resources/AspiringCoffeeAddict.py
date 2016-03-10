@@ -7,12 +7,12 @@ import random
 post_parser = reqparse.RequestParser()
 post_parser.add_argument(
         'card_id', dest='card_id',
-        location='form', required=True,
+        required=True,
         help='A card_id is required to create AspiringCoffeAddict'
 )
 post_parser.add_argument(
         'api_key', dest='api_key',
-        location='form', required=True,
+        required=True,
         help='An api_key is required to create AspiringCoffeeAddicts'
 )
 
