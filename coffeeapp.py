@@ -18,7 +18,8 @@ class HelloWorld(Resource):
         url = "http://nfc-coffee-dev.eu-west-1.elasticbeanstalk.com"
         json_data = json.dumps({ "longUrl" : url })
         headers = { "Content-Type" : "application/json" }
-        g_api_key = "AIzaSyALXXfuvKQlrcX3WmV5z4ZY9bDw5e6sOhM"
+        # TODO: source from file
+        g_api_key = ""
         r = requests.post("https://www.googleapis.com/urlshortener/v1/url?key={}"\
                 .format(g_api_key), data=json_data, headers = headers)
         if r.status_code == 200:
